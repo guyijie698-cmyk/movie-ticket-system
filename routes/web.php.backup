@@ -1,0 +1,19 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\AuthController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// 认证路由
+Route::get('/login', function () {
+    return view('auth.login');
+});
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
+
+// 电影资源路由
+Route::resource('movies', MovieController::class);
