@@ -1,44 +1,47 @@
-@extends('layouts.app')
-
-@section('title', $movie->title)
-
-@section('content')
-    <h1>{{ $movie->title }}</h1>
-    
-    <div style="display: flex; gap: 30px; margin-top: 20px;">
-        @if($movie->poster)
-        <div style="flex: 0 0 300px;">
-            <img src="{{ asset('storage/' . $movie->poster) }}" alt="{{ $movie->title }}" style="max-width: 100%; border-radius: 5px;">
-        </div>
-        @endif
-        
-        <div style="flex: 1;">
-            <p><strong>Description:</strong></p>
-            <p>{{ $movie->description }}</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ $movie->title }} - Movie Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .movie-details { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .movie-title { color: #333; margin-bottom: 20px; }
+        .movie-info { margin-bottom: 10px; }
+        .back-link { margin-top: 20px; }
+        .btn { display: inline-block; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin-right: 10px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-warning { background: #ffc107; color: #000; }
+        .btn-danger { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="movie-details">
+            <h1 class="movie-title">{{ $movie->title }}</h1>
             
-            <div style="margin-top: 20px;">
+            <div class="movie-info">
+                <p><strong>Description:</strong> {{ $movie->description }}</p>
                 <p><strong>Genre:</strong> {{ $movie->genre }}</p>
                 <p><strong>Duration:</strong> {{ $movie->duration }} minutes</p>
-                <p><strong>Release Date:</strong> {{ date('F j, Y', strtotime($movie->release_date)) }}</p>
+                <p><strong>Release Date:</strong> {{ $movie->release_date }}</p>
                 <p><strong>Price:</strong> ${{ number_format($movie->price, 2) }}</p>
+                <p><strong>Rating:</strong> {{ $movie->rating }}/10</p>
             </div>
             
-            @auth
-                @if(Auth::user()->role === 'admin')
-                <div style="margin-top: 20px;">
-                    <a href="{{ route('movies.edit', $movie->id) }}" style="background: #ffc107; color: #000; padding: 8px 15px; text-decoration: none; margin-right: 10px;">Edit</a>
-                    <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Delete this movie?')" style="background: #dc3545; color: white; padding: 8px 15px; border: none; cursor: pointer;">Delete</button>
-                    </form>
-                </div>
+            <div class="action-buttons">
+                <a href="/movies" class="btn btn-primary">Back to Movies</a>
+                
+                @if(session('user_role') === 'admin')
+                <a href="/movies/{{ $movie->id }}/edit" class="btn btn-warning">Edit</a>
+                <form action="/movies/{{ $movie->id }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
                 @endif
-            @endauth
+            </div>
         </div>
     </div>
-    
-    <p style="margin-top: 30px;">
-        <a href="{{ route('movies.index') }}">Back to Movies List</a>
-    </p>
-@endsection
+</body>
+</html>

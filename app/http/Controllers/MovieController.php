@@ -10,11 +10,9 @@ class MovieController extends Controller
     public function index()
     {
         $movies = Movie::all();
-        $isAdmin = session('user_role') === 'admin';
-        
-        return view('movies.list', [
+        return view('movies.simple_index', [
             'movies' => $movies,
-            'isAdmin' => $isAdmin
+            'isAdmin' => session('user_role') === 'admin'
         ]);
     }
 
@@ -48,7 +46,7 @@ class MovieController extends Controller
     public function show($id)
     {
         $movie = Movie::findOrFail($id);
-        return view('movies.show', compact('movie'));
+        return view('movies.simple.show', compact('movie'));
     }
 
     public function edit($id)

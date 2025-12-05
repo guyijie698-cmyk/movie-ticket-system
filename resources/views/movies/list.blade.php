@@ -26,7 +26,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <h1>Movies List</h1>
-                <p>Welcome, {{ $userName }} ({{ $userRole }})</p>
+                Welcome, {{ session('user_name') }} ({{ session('user_role') }})
             </div>
             <div>
                 <a href="/logout" class="btn btn-primary">Logout</a>
@@ -66,11 +66,11 @@
                     <p><strong>Released:</strong> {{ date('M d, Y', strtotime($movie->release_date)) }}</p>
                     
                     <div style="margin-top: 15px;">
-                        <a href="/movie/{{ $movie->id }}" class="btn btn-primary">View Details</a>
+                        <a href="/movies/{{ $movie->id }}" class="btn btn-primary">View Details</a>
                         
                         @if($isAdmin)
-                            <a href="#" class="btn btn-warning">Edit</a>
-                            <form action="#" method="POST" style="display: inline;">
+                            <a href="/movies/{{ $movie->id }}/edit" class="btn btn-warning">Edit</a>
+                            <form action="/movies/{{ $movie->id }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Delete movie?')">Delete</button>
