@@ -47,8 +47,8 @@ class MovieController extends Controller
 
     public function show($id)
     {
-        $movie = Movie::findOrFail($id);
-        return view('movies.show', compact('movie'));
+        $movie = Movie::with(['comments.user'])->findOrFail($id);
+        return view('movies.show', ['movie' => $movie]);
     }
 
     public function edit($id)

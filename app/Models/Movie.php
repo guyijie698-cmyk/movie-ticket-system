@@ -29,4 +29,14 @@ class Movie extends Model
         'price' => 'decimal:2',
         'duration' => 'integer'
     ];
+
+    public function comments()
+    {
+        return $this->morphMany(\App\Models\Comment::class, 'commentable');
+    }
+
+    public function averageRating()
+    {
+        return $this->comments()->avg('rating');
+    }
 }

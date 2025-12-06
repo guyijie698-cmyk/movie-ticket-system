@@ -1,62 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register - Movie Tickets</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Movie Ticket System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial; padding: 20px; max-width: 400px; margin: 0 auto; }
-        .card { border: 1px solid #ddd; padding: 20px; border-radius: 5px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input { width: 100%; padding: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; }
-        .error { color: red; font-size: 14px; }
+        body { background: #f8f9fa; min-height: 100vh; display: flex; align-items: center; padding: 20px; }
+        .register-card { background: white; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto; padding: 30px; }
+        .btn-register { background: #007bff; color: white; width: 100%; padding: 10px; }
+        .btn-register:hover { background: #0056b3; color: white; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Register</h1>
+    <div class="register-card">
+        <h2 class="text-center mb-4">Create Account</h2>
         
-        @if ($errors->any())
-            <div class="error">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
         
-        <form method="POST" action="{{ route('register.post') }}">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        
+        <form action="/register" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="name" class="form-control" required>
             </div>
             
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" required>
             </div>
             
-            <div class="form-group">
-                <label for="password">Password (min. 6 characters)</label>
-                <input type="password" id="password" name="password" required>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
             </div>
             
-            <div class="form-group">
-                <label for="password_confirmation">Confirm Password</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" required>
+            <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" name="password_confirmation" class="form-control" required>
             </div>
             
-            <button type="submit">Register</button>
+            <button type="submit" class="btn btn-register">Register</button>
         </form>
         
-        <p style="margin-top: 15px; text-align: center;">
-            Already have an account? <a href="{{ route('login') }}">Login here</a>
-        </p>
-        <p style="text-align: center;">
-            <a href="/">Back to Home</a>
-        </p>
+        <div class="text-center mt-3">
+            <a href="/login">Already have an account? Login</a>
+        </div>
     </div>
 </body>
 </html>

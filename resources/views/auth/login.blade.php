@@ -140,14 +140,15 @@
                 
                 <button type="submit" class="btn-login">Login to System</button>
             </form>
+    <div class="text-center mt-4">
+        <p class="text-muted">Don't have an account? 
+            <a href="/register" class="text-decoration-none fw-bold">Create Account</a>
+        </p>
+    </div>
             
             <div class="demo-accounts">
                 <h3>Demo Accounts</h3>
                 <p>For demonstration purposes, use these credentials:</p>
-                <ul>
-                    <li><strong>Admin:</strong> admin@movie.com / password</li>
-                    <li><strong>User:</strong> user@example.com / password</li>
-                </ul>
                 <p><small>Any other credentials will show an error message.</small></p>
             </div>
             

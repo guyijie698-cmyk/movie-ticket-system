@@ -58,6 +58,12 @@
         <div class="movie-grid">
             @forelse($movies as $movie)
             <div class="movie-card">
+                <!-- Movie Poster Display -->
+                @if($movie->poster)
+                <div style="text-align: center; padding: 10px;">
+                    <img src="{{ Storage::url($movie->poster) }}" alt="{{ $movie->title }}" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
+                </div>
+                @endif
                 <div class="movie-content">
                     <h3 class="movie-title">{{ $movie->title }}</h3>
                     <p><strong>Genre:</strong> {{ $movie->genre }}</p>
@@ -75,6 +81,22 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Delete movie?')">Delete</button>
                             </form>
+                        @if($isAdmin)
+                        <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 4px;">
+                            <form action="{{ route("movies.upload-poster", $movie) }}" method="POST" enctype="multipart/form-data" style="display: flex; align-items: center; gap: 10px;">
+                                @csrf
+                                <input type="file" name="poster" accept="image/*" required style="flex-grow: 1;">
+                                <button type="submit" class="btn btn-success" style="padding: 5px 10px; font-size: 0.9em;">Upload</button>
+                            </form>
+                            @if($movie->poster)
+                            <form action="{{ route("movies.delete-poster", $movie) }}" method="POST" style="margin-top: 5px;">
+                                @csrf
+                                @method("DELETE")
+                                <button type="submit" class="btn btn-danger" style="padding: 5px 10px; font-size: 0.9em; width: 100%;" onclick="return confirm("Delete poster?")">Delete Poster</button>
+                            </form>
+                            @endif
+                        </div>
+                        @endif
                         @endif
                     </div>
                 </div>
